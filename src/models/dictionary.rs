@@ -55,7 +55,7 @@ impl Dictionary {
         let all_words = fs::read_to_string("./src/war_and_peace.txt")
             .expect("Could not read book")
             .split(" ")
-            .map(|s| s.trim().to_string())
+            .map(|s| s.trim().to_lowercase().to_string())
             .collect::<Vec<String>>();
 
         let mut map: HashMap<String, i32> = HashMap::new();
