@@ -1,17 +1,14 @@
 use clap::Parser;
 use models::args::Args;
-use models::dictionary::{Dictionary, DictionaryType};
+use models::dictionary::Dictionary;
 use rand::seq::SliceRandom;
 
 mod models;
 
-const MAX: usize = 7;
-const MIN: usize = 3;
-
 fn main() {
-    let dictionary = Dictionary::new(DictionaryType::Common);
-
     let args = Args::parse();
+
+    let dictionary = Dictionary::new(args.dict_type);
     let day = args.day.to_char();
 
     let t_words = filter_words(&dictionary.words, 't');
@@ -35,7 +32,7 @@ fn pick_random(vec: &Vec<String>) -> String {
 
 fn filter_words(vec: &Vec<String>, letter: char) -> Vec<String> {
     vec.iter()
-        .filter(|w| w.starts_with(letter) && w.len().ge(&MIN) && w.len().le(&MAX))
+        .filter(|w| w.starts_with(letter))
         .cloned()
         .collect()
 }
