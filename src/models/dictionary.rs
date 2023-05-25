@@ -24,7 +24,7 @@ impl fmt::Display for DictionaryType {
 
 impl Dictionary {
     /// Creates a new instance of the dictionary struct
-    pub fn new(t: DictionaryType) -> Self {
+    pub fn new(t: DictionaryType, cached: bool) -> Self {
         match t {
             DictionaryType::All => {
                 let all_words = Dictionary::from_dict_file();
@@ -32,7 +32,15 @@ impl Dictionary {
                 Dictionary { words: all_words }
             }
             DictionaryType::Common => {
-                let common_words = Dictionary::from_war_and_peace();
+                let src = if cached {
+                    "./src/common_words.txt"
+                } else {
+                    "./src/war_and_peace.txt"
+                };
+
+                let min = if cached { 0 } else { 25 };
+
+                let common_words = Dictionary::from_src(src, &min);
 
                 Dictionary {
                     words: common_words,
@@ -50,9 +58,9 @@ impl Dictionary {
             .collect::<Vec<String>>()
     }
 
-    /// Uses the words from war and peace
-    fn from_war_and_peace() -> Vec<String> {
-        let all_words = fs::read_to_string("./src/war_and_peace.txt")
+    /// Uses the words from a given src file
+    fn from_src(src: &str, min: &i32) -> Vec<String> {
+        let all_words = fs::read_to_string(src)
             .expect("Could not read book")
             .split(" ")
             .map(|s| s.trim().to_lowercase().to_string())
@@ -69,7 +77,7 @@ impl Dictionary {
         }
 
         map.iter()
-            .filter(|(_, &count)| count.gt(&25))
+            .filter(|(_, &count)| count.ge(&min))
             .map(|(word, _)| word.to_string())
             .collect::<Vec<String>>()
     }

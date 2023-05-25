@@ -8,7 +8,7 @@ mod models;
 fn main() {
     let args = Args::parse();
 
-    let dictionary = Dictionary::new(args.dict_type);
+    let dictionary = Dictionary::new(args.dict_type, args.cached);
     let day = args.day.to_char();
 
     let t_words = filter_words(&dictionary.words, 't');

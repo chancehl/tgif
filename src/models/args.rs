@@ -13,4 +13,8 @@ pub struct Args {
     /// The dictionary type to use
     #[arg(short = 't', long = "dictionary-type", default_value_t=DictionaryType::Common)]
     pub dict_type: DictionaryType,
+
+    /// Whether to used the cached words list or to parse war and peace (this only works with -d/--dicationary-type=common)
+    #[arg(short, long, default_value_t = true)]
+    pub cached: bool,
 }
