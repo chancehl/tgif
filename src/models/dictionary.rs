@@ -24,7 +24,7 @@ impl fmt::Display for DictionaryType {
 
 impl Dictionary {
     /// Creates a new instance of the dictionary struct
-    pub fn new(t: DictionaryType, cached: bool) -> Self {
+    pub fn new(t: &DictionaryType, cached: &bool) -> Self {
         match t {
             DictionaryType::All => {
                 let all_words = Dictionary::from_dict_file();
@@ -32,13 +32,13 @@ impl Dictionary {
                 Dictionary { words: all_words }
             }
             DictionaryType::Common => {
-                let src = if cached {
+                let src = if *cached {
                     "./src/common_words.txt"
                 } else {
                     "./src/war_and_peace.txt"
                 };
 
-                let min = if cached { 0 } else { 25 };
+                let min = if *cached { 0 } else { 25 };
 
                 let common_words = Dictionary::from_src(src, &min);
 

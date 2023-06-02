@@ -17,4 +17,8 @@ pub struct Args {
     /// Whether to used the cached words list or to parse war and peace (this only works with -d/--dicationary-type=common)
     #[arg(short, long, default_value_t = true)]
     pub cached: bool,
+
+    /// The count of TGI[day]s to generate
+    #[arg(short = 'n', long, default_value_t = 1)]
+    pub count: u8,
 }
